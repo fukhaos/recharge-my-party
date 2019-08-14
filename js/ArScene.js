@@ -71,23 +71,13 @@ export default class ArScene extends Component {
                   key={beacon._id}
                   position={[beacon.mercPos.x, 0.5, beacon.mercPos.y]}
                 >
-                  <ViroText
-                    text={beacon.name}
-                    textAlign="center"
-                    textAlignVertical="top"
-                    textLineBreakMode="Justify"
-                    color="#000"
-                    width={2} height={2}
-                    style={{ fontFamily: "Arial", fontSize: 50 }}
-                    position={[0, 4, 1]}
-                  />
                   <ViroAmbientLight color="#ffffff" />
                   <Viro3DObject
                     source={require('./res/thunder/ThunderObject.obj')}
                     resources={[require('./res/thunder/ThunderMaterial.mtl'), require('./res/thunder/ThunderBaked.png')]}
                     materials={["thunder"]}
                     scale={[1, 1, 1]}
-                    position={[0, 4, 0]}
+                    position={[0, 6, 0]}
                     animation={{
                       name: 'loopRotate',
                       run: true,
@@ -97,7 +87,7 @@ export default class ArScene extends Component {
                   />
                   <ViroParticleEmitter
                     key={"effect_sparks"}
-                    position={[0, -3, 0]}
+                    position={[0, -1, 0]}
                     duration={5000}
 
                     visible={true}

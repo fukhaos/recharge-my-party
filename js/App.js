@@ -129,33 +129,34 @@ class App extends Component {
 
   _renderSplash(icon, text) {
     return (
-      <ContentWrapper>
+      <FullWrapper>
         <StatusBar hidden={true} />
         <SplashIcon>{icon}</SplashIcon>
         <SplashTitle>{text}</SplashTitle>
-      </ContentWrapper>
+      </FullWrapper>
     );
   }
 
   _renderCharging() {
     if (!this.state.isPlugged) {
       return (
-        <ContentWrapper>
+        <FullWrapper>
           <StatusBar hidden={true} />
-          <SplashIcon>⚡️</SplashIcon>
-          <SplashTitle>Insert charger to place a beacon.</SplashTitle>
+          <SplashIcon>🎉</SplashIcon>
+          <OnboardingTitle>Throwing a party?</OnboardingTitle>
+          <OnboardingText>Connect your charger to share your location with others.</OnboardingText>
           <PrimaryButton onPress={() => this.props.dispatchSetView('AR')}>
             <PrimaryText>Go back</PrimaryText>
           </PrimaryButton>
-        </ContentWrapper>
+        </FullWrapper>
       );
     } else if (this.state.isPlugged) {
       return (
-        <ContentWrapper>
+        <FullWrapper>
           <StatusBar hidden={true} />
-          <SplashIcon>📍</SplashIcon>
-          <SplashTitle>Beacon set!</SplashTitle>
-        </ContentWrapper>
+          <SplashIcon>⚡️</SplashIcon>
+          <SplashTitle>Recharging your party!</SplashTitle>
+        </FullWrapper>
       )
     }
 
@@ -164,9 +165,9 @@ class App extends Component {
   _renderHUD() {
     return (
       <Toolbar>
-        <PrimaryButton onPress={() => this.props.dispatchSetView('CHARGING')}>
-          <PrimaryText>Place beacon</PrimaryText>
-        </PrimaryButton>
+        <SpecialButton onPress={() => this.props.dispatchSetView('CHARGING')}>
+          <SpecialText>📍</SpecialText>
+        </SpecialButton>
       </Toolbar>
     )
   }
@@ -175,55 +176,60 @@ class App extends Component {
     if (this.props.view == 'ONBOARD_START') {
       return (
         <Overlay>
-          <SplashIcon>👋</SplashIcon>
-          <OnboardingTitle>Hi there!</OnboardingTitle>
-          <OnboardingText>This app is all about finding the place to be. We’ll help you locate and join exisiting party’s on the festival camping.</OnboardingText>
-          {
-            this.props.beacons != null && this.props.location != null
-              ? (
-                <SecondaryButton onPress={() => this.props.dispatchSetView('AR')}>
-                  <SecondaryText>Skip onboarding</SecondaryText>
-                </SecondaryButton>
-              ) : null
-          }
-          <PrimaryButton onPress={() => this.props.dispatchSetView('ONBOARD_GPS')}>
-            <PrimaryText>Start onboarding</PrimaryText>
-          </PrimaryButton>
+          <OverlayInner>
+            <HeaderSection>
+              <SplashIcon>👋</SplashIcon>
+              <OnboardingTitle>Hi,</OnboardingTitle>
+              <OnboardingText>Recharge your party is all about finding the place to be. We’ll help you locate and join exisiting party’s on the festival camping..</OnboardingText>
+            </HeaderSection>
+            <FooterSection>
+              {
+                this.props.beacons != null && this.props.location != null
+                  ? (
+                    <SecondaryButton onPress={() => this.props.dispatchSetView('AR')}>
+                      <SecondaryText>Skip onboarding</SecondaryText>
+                    </SecondaryButton>
+                  ) : null
+              }
+              <PrimaryButton onPress={() => this.props.dispatchSetView('ONBOARD_GPS')}>
+                <PrimaryText>Understood</PrimaryText>
+              </PrimaryButton>
+            </FooterSection>
+          </OverlayInner>
         </Overlay>
       )
     } else if (this.props.view == 'ONBOARD_GPS') {
       return (
         <Overlay>
-          <SplashIcon>📍</SplashIcon>
-          <OnboardingTitle>Share your location</OnboardingTitle>
-          <OnboardingText>If you want others to join your party just charge your phone and open this app. We’ll take care of the rest!</OnboardingText>
-          <PrimaryButton onPress={() => this.props.dispatchSetView('ONBOARD_AR')}>
-            <PrimaryText>Next</PrimaryText>
-          </PrimaryButton>
-        </Overlay>
+          <OverlayInner>
+            <HeaderSection>
+              <SplashIcon>📍</SplashIcon>
+              <OnboardingTitle>Share your location</OnboardingTitle>
+              <OnboardingText>To help you find those party’s we need your location. Also this helps us guide others to find your party! Just open this app and charge your phone. We’ll take care of the rest!</OnboardingText>
+            </HeaderSection>
+            <FooterSection>
+              <PrimaryButton onPress={() => this.props.dispatchSetView('ONBOARD_AR')}>
+                <PrimaryText>Agree</PrimaryText>
+              </PrimaryButton>
+            </FooterSection>
+          </OverlayInner >
+        </Overlay >
       )
     } else if (this.props.view == 'ONBOARD_AR') {
       return (
         <Overlay>
-          <SplashIcon>👀</SplashIcon>
-          <OnboardingTitle>Look around</OnboardingTitle>
-          <OnboardingText>Using augmented reality we’ll help you navigate to different locations and activities.</OnboardingText>
-          <PrimaryButton onPress={() => this.props.dispatchSetView('ONBOARD_APP')}>
-            <PrimaryText>Next</PrimaryText>
-          </PrimaryButton>
-        </Overlay>
-      )
-    } else if (this.props.view == 'ONBOARD_APP') {
-      return (
-        <Overlay>
-          <SplashIcon>📍</SplashIcon>
-          <OnboardingTitle>Info about app</OnboardingTitle>
-          <OnboardingText>yadayada!</OnboardingText>
-          <PrimaryButton onPress={() => {
-            this.props.dispatchSetView('AR')
-          }}>
-            <PrimaryText>Start</PrimaryText>
-          </PrimaryButton>
+          <OverlayInner>
+            <HeaderSection>
+              <SplashIcon>👀</SplashIcon>
+              <OnboardingTitle>Look around</OnboardingTitle>
+              <OnboardingText>Using augmented reality we’ll help you navigate to different locations and activities. Good luck and enjoy the festival!</OnboardingText>
+            </HeaderSection>
+            <FooterSection>
+              <PrimaryButton onPress={() => this.props.dispatchSetView('AR')}>
+                <PrimaryText>Start the awesomeness</PrimaryText>
+              </PrimaryButton>
+            </FooterSection>
+          </OverlayInner>
         </Overlay>
       )
     }
@@ -251,79 +257,110 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(selectProps, mapDispatchToProps)(App);
 
 const Wrapper = styled.View`
-  flex: 1;
+flex: 1;
+
+`;
+
+const FullWrapper = styled.View`
+flex: 1;
+justify-content: center;
+align-items: center;
+background-color: white;
+padding: 10%;
 `;
 
 const Overlay = styled.View`
-  position: absolute;
-  justify-content: center;
-  align-items: center;
-  background-color: white;
-  opacity: 0.9;
-  top: 8%;
-  bottom: 8%;
-  left: 4%;
-  right: 4%;
-  padding: 8%;
-  border-radius: 32px;
+position: absolute;
+height: 100%;
+width: 100%;
+justify-content: center;
+align-items: center;
+`;
+
+const OverlayInner = styled.View`
+justify-content: space-between;
+width: 90%;
+height: 80%;
+border-radius: 32px;
+background-color: white;
+opacity: 0.9;
+`;
+
+const Section = styled.View`
+width: 100%;
+padding: 32px;
+align-items: center;
+`;
+
+const HeaderSection = styled(Section)`
+height: 65%;
+justify-content: flex-end;
+`;
+const FooterSection = styled(Section)`
 `;
 
 const Toolbar = styled.View`
-  position: absolute;
-  justify-content: center;
-  align-items: center;
-  bottom: 4%;
-  left: 4%;
-  right: 4%;
-`;
-
-const ContentWrapper = styled.View`
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-  background-color: white;
-  padding: 10%;
+position: absolute;
+justify-content: center;
+align-items: center;
+bottom: 4%;
+left: 4%;
+right: 4%;
 `;
 
 const SplashIcon = styled.Text`
-  font-size: 96px;
-  padding: 0 0 16px 0;
+font-size: 96px;
+padding: 0 0 16px 0;
 `;
 
 const SplashTitle = styled.Text`
-  text-align: center;
-  font-size: 24px;
-  color: black;
+text-align: center;
+font-size: 24px;
+color: black;
 `;
 
 const OnboardingTitle = styled.Text`
-  text-align: center;
-  font-size: 48px;
-  color: black;
+text-align: left;
+font-size: 32px;
+color: black;
+width: 100%;
+padding: 16px 0 8px 0;
 `;
 
 const OnboardingText = styled.Text`
-  padding: 32px 0 32px 0;
 `;
 
 const Button = styled.TouchableHighlight`
-  margin: 8px 0 0 0;
-  padding: 16px;
-  border-radius: 8px;
+margin: 8px 0 0 0;
+padding: 16px;
+border-radius: 8px;
 `;
 
 const PrimaryButton = styled(Button)`
-  background-color: black;
+background-color: black;
 `;
 
 const PrimaryText = styled.Text`
-  color: white;
+color: white;
 `;
 
 const SecondaryButton = styled(Button)`
-  background-color: transparent;
+background-color: transparent;
 `;
 
 const SecondaryText = styled.Text`
-  color: black;
+color: black;
+`;
+
+const SpecialButton = styled.TouchableHighlight`
+background-color: white;
+height: 64px;
+width: 64px;
+border-radius: 32px;
+justify-content: center;
+align-items: center;
+`;
+
+const SpecialText = styled.Text`
+font-size: 32px;
 `;

@@ -8,7 +8,7 @@ import merc from 'mercator-projection';
 import haversine from 'haversine';
 
 export function fetchBeacons(location) {
-  const url = 'https://heroku-crud.herokuapp.com/positions'
+  const url = 'https://rechargemyparty.herokuapp.com/positions'
   //  const url = 'http://192.168.178.24:3000/positions';
 
   return dispatch => {
